@@ -8,8 +8,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    private float horizontalInput;
-    private float verticalInput;
+    private Vector2 inputDirection;
 
     [SerializeField]
     private float movementScale;
@@ -27,23 +26,27 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
-
+        Move();
         Rotation();
-        
     }
 
     private void FixedUpdate()
     {
-        rb.AddForce(new Vector2(horizontalInput * movementScale * Time.deltaTime, verticalInput * movementScale * Time.deltaTime), ForceMode2D.Force);
+        rb.AddForce(transform.up * inputDirection.magnitude * movementScale, ForceMode2D.Force);
+    }
+
+    void Move()
+    {
+        inputDirection.x = Input.GetAxisRaw("Horizontal");
+        inputDirection.y = Input.GetAxisRaw("Vertical");
+        inputDirection.Normalize();
     }
 
     void Rotation()
     {
-        if(rb.velocity != Vector2.zero) 
+        if(inputDirection != Vector2.zero) 
         {
-            Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, rb.velocity);
+            Quaternion toRotation = Quaternion.LookRotation(transform.forward, inputDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
         }
     }
