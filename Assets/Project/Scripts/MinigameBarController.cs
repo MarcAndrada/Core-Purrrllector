@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class MinigameBarController : MonoBehaviour
 {
     [SerializeField]
-    private RectTransform currentEnergyLevelPointer;
+    private RectTransform c_currentEnergyLevelPointer;
     [SerializeField]
-    private RectTransform needEnergyLevelPointer;
+    private RectTransform c_needEnergyLevelPointer;
 
     private float currentEnergyValue;
     private float needEnergyValue;
@@ -18,18 +18,21 @@ public class MinigameBarController : MonoBehaviour
     private Slider c_miningBarSlider;
     private Image c_currentEnergyImage;
 
+    [HideInInspector]
+    public bool CorrectEnergy;
+
     private void Awake()
     {
         c_miningBarSlider = GetComponent<Slider>();
-        c_currentEnergyImage = currentEnergyLevelPointer.GetComponent<Image>();
+        c_currentEnergyImage = c_currentEnergyLevelPointer.GetComponent<Image>();
     }
 
     public void SetNeedEnergyLevel(float _nextEnergyNeed, float _nextEnergyNeedSize)
     {
-        c_miningBarSlider.handleRect = needEnergyLevelPointer;
+        c_miningBarSlider.handleRect = c_needEnergyLevelPointer;
         needEnergyValue = _nextEnergyNeed;
         c_miningBarSlider.value = needEnergyValue;
-        c_miningBarSlider.handleRect = currentEnergyLevelPointer;
+        c_miningBarSlider.handleRect = c_currentEnergyLevelPointer;
 
         SetNeedEnergySize(_nextEnergyNeedSize);
 
@@ -42,9 +45,9 @@ public class MinigameBarController : MonoBehaviour
     private void SetNeedEnergySize(float _nextEnergyNeedSize)
     {
         needEnergySize = _nextEnergyNeedSize;
-        needEnergyLevelPointer.sizeDelta = new Vector2(needEnergySize, needEnergyLevelPointer.sizeDelta.y);
-        needEnergyLevelPointer.position = new Vector3(0, 0, 0);
-        needEnergyLevelPointer.anchoredPosition = new Vector3(0, 0, 0);
+        c_needEnergyLevelPointer.sizeDelta = new Vector2(needEnergySize, c_needEnergyLevelPointer.sizeDelta.y);
+        c_needEnergyLevelPointer.position = new Vector3(0, 0, 0);
+        c_needEnergyLevelPointer.anchoredPosition = new Vector3(0, 0, 0);
         //Cuando divides el tamanyo por 4 es perfecto pero a veces parece que sea injusto porque te pilla la parte de en medio del puntero de la energia actual
         //Al dividirlo entre 3 hasta que no sale el puntero entero no se marcara como que esta fuera
         neededEnergyOffset = needEnergySize / 3;
