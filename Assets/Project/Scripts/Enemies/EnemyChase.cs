@@ -29,7 +29,7 @@ public class EnemyChase : MonoBehaviour
     {
         if(playerInArea)
         {
-            FollowingPlayer();
+            Following(targetTransform);
 
             time += Time.deltaTime;
             if (timeFollowingTarget < time)
@@ -39,7 +39,7 @@ public class EnemyChase : MonoBehaviour
         }
         else
         {
-            GoingToSpawnPoint(); 
+            Following(spawnPointTransform);
         }
     }
 
@@ -52,24 +52,14 @@ public class EnemyChase : MonoBehaviour
         }
     }
 
-    private void FollowingPlayer()
+    private void Following(Transform target)
     {
         // ROTATION OF THE ENENMY WHILE FOLLOWING
-        Vector2 direction = targetTransform.position - transform.position;
+        Vector2 direction = target.position - transform.position;
         direction.Normalize();
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        transform.position = Vector2.MoveTowards(this.transform.position, targetTransform.position, speed * Time.deltaTime);
-        transform.rotation = Quaternion.Euler(Vector3.forward * angle);
-    }
-    private void GoingToSpawnPoint()
-    {
-        // ROTATION OF THE ENENMY WHILE FOLLOWING
-        Vector2 direction = spawnPointTransform.position - transform.position;
-        direction.Normalize();
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-        transform.position = Vector2.MoveTowards(this.transform.position, spawnPointTransform.position, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(this.transform.position, target.position, speed * Time.deltaTime);
         transform.rotation = Quaternion.Euler(Vector3.forward * angle);
     }
 
