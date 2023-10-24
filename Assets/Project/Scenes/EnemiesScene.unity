@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionTag: Player
-  spawnPointTransform: {fileID: 0}
+  spawnPointTransform: {fileID: 1259611659}
   speed: 3
   timeFollowingTarget: 10
 --- !u!50 &123422476
