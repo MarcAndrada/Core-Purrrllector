@@ -4,61 +4,78 @@ using UnityEngine;
 
 public class EnemyChase : MonoBehaviour
 {
-    private Transform transformPlayer;
+    [SerializeField]
+    private string detectionTag = "Player"; 
+    private Transform targetTransform;
+
+    [SerializeField]
+    private Transform spawnPointTransform;
 
     [SerializeField]
     private float speed;
-    [SerializeField]
-    private float visionRange = 6.0f;
-    [SerializeField]
-    private float timeFollowingTarget = 20.0f; // seconds
-    private float time = 0.0f; 
 
-    private float distanceBetween;
-    private bool isFollowing;
+    [SerializeField]
+    private float timeFollowingTarget = 10.0f; // seconds
+    private float time = 0.0f;
+
+    private bool playerInArea;
 
     void Start()
     {
-        transformPlayer = GameObject.FindGameObjectWithTag("Player").transform; 
+        targetTransform = GameObject.FindGameObjectWithTag(detectionTag).transform;
     }
 
     void Update()
     {
-        distanceBetween = Vector2.Distance(transform.position, transformPlayer.position);
-
-        if (distanceBetween < visionRange)
+        if(playerInArea)
         {
-            isFollowing = true;
-            time = 0.0f;
+            FollowingPlayer();
+
+            time += Time.deltaTime;
+            if (timeFollowingTarget < time)
+            {
+                playerInArea = false;
+            }
         }
-        else if (timeFollowingTarget < time)
+        else
         {
-            isFollowing = false;
-            time = 0.0f; 
-        }
-
-
-        if(isFollowing)
-        {
-            time += Time.deltaTime; 
-            Following(); 
+            GoingToSpawnPoint(); 
         }
     }
 
-    private void Following()
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag(detectionTag))
+        {
+            playerInArea = true;
+            time = 0.0f;
+        }
+    }
+
+    private void FollowingPlayer()
     {
         // ROTATION OF THE ENENMY WHILE FOLLOWING
-        Vector2 direction = transformPlayer.position - transform.position;
+        Vector2 direction = targetTransform.position - transform.position;
         direction.Normalize();
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        transform.position = Vector2.MoveTowards(this.transform.position, transformPlayer.position, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(this.transform.position, targetTransform.position, speed * Time.deltaTime);
+        transform.rotation = Quaternion.Euler(Vector3.forward * angle);
+    }
+    private void GoingToSpawnPoint()
+    {
+        // ROTATION OF THE ENENMY WHILE FOLLOWING
+        Vector2 direction = spawnPointTransform.position - transform.position;
+        direction.Normalize();
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        transform.position = Vector2.MoveTowards(this.transform.position, spawnPointTransform.position, speed * Time.deltaTime);
         transform.rotation = Quaternion.Euler(Vector3.forward * angle);
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, visionRange);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(spawnPointTransform.position, 0.5f);
     }
 }
