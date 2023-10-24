@@ -62,7 +62,5 @@ public class InventoryManager : MonoBehaviour
         {
             items[item.Key] -= item.Value;
         }
-    }
-
-    
+    }   
 }

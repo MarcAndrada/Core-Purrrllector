@@ -6,14 +6,12 @@ using UnityEngine.UI;
 public class ItemUIController : MonoBehaviour
 {
     [SerializeField]
-    private Dictionary<ItemController.ItemType, Image> itemsSprite;
+    private Dictionary<ItemController.ItemType, Sprite> itemsSprite;
 
-    private Queue<GameObject> notificationToDelete;
 
 
     private void Awake()
     {
-        notificationToDelete = new Queue<GameObject>();
     }
 
     private void DisplayObtainedItem(ItemController.ItemType _itemType, short _itemAmount)
@@ -31,11 +29,11 @@ public class ItemUIController : MonoBehaviour
 
     private void OnDisable()
     {
-        
+        EventManager.onItemChange -= DisplayObtainedItem;
     }
 
 
 
-    
+
 
 }
