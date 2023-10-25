@@ -23,11 +23,11 @@ public class InventoryManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            ChangeItemtAmount(ItemController.ItemType.COOPER, 1);
+            ChangeItemtAmount(ItemController.ItemType.Cooper, 1);
         }
         if (Input.GetKeyDown(KeyCode.M))
         {
-            ChangeItemtAmount(ItemController.ItemType.COOPER, -1);
+            ChangeItemtAmount(ItemController.ItemType.Cooper, -1);
         }
     }
 
@@ -45,12 +45,11 @@ public class InventoryManager : MonoBehaviour
         }
 
         EventManager.CallOnItemChange(_itemType, _itemsToAdd);
-
-        Debug.Log(items[_itemType]);
     }
-    public short GetObject(ItemController.ItemType _objectType)
+
+    public Dictionary<ItemController.ItemType, short> GetItems()
     {
-        return items[_objectType];
+        return items;
     }
 
     /* 

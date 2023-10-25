@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class InventoryUIController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private int itemIndex;
+    private void OnEnable()
     {
-        
+        itemIndex = 0;
+        Dictionary<ItemController.ItemType, short> items = InventoryManager.Instance.GetItems();
+
+        foreach (KeyValuePair<ItemController.ItemType, short> item in items)
+        {
+            DisplayItem(item.Key, item.Value);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void DisplayItem(ItemController.ItemType _itemType, short _amount)
     {
-        
+        Sprite itemSprite = Resources.Load<Sprite>("MineralsTextures/" + _itemType.ToString());
+
     }
+
 }
