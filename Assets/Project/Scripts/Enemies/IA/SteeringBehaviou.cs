@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class SteeringBehaviou : MonoBehaviour
 {
-    public abstract (float[] danger, float[] interest) GetSteering(float[] danger, float[] interest, IAData iaData);
+    public abstract (float[] danger, float[] interest) GetSteering(float[] _danger, float[] _interest, IAData _iaData);
 }

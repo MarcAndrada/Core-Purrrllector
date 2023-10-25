@@ -76,6 +76,11 @@ public class SeekBehaviour : SteeringBehaviou
         return (_danger, _interest);
     }
 
+    public Vector2 GetTargetPositionCached()
+    {
+        return targetPositionCached; 
+    }
+
     private void OnDrawGizmos()
     {
         if (showGizmos == false)
