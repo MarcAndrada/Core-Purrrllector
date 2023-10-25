@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class Detector : MonoBehaviour
 {
-    public abstract void Detect(IAData iaData); 
+    public abstract void Detect(IAData _iaData); 
 }

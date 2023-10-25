@@ -15,39 +15,42 @@ public class ObstacleAvoidanceBehaviour : SteeringBehaviou
     private bool showGizmos = true;
     float[] dangersResultTemp = null; 
 
-    // Anonymous Type: way to encapsulate a set of read-only properties into a single object without having to 
-    //                 explicitly define a type first. (unity definition)
-    public override (float[] danger, float[] interest) GetSteering(float[] danger, float[] interest, IAData iaData)
+    
+    // calculate the danger obstacles
+    public override (float[] danger, float[] interest) GetSteering(float[] _danger, float[] _interest, IAData _iaData) // Anonymous Type
     {
-        // ONLY CALCULATE THE DANGER OBSTACLES
-
-        foreach(Collider2D obstacleCollider in iaData.m_obstacles)
+        // Look all the obstacles (not player)
+        foreach(Collider2D obstacleCollider in _iaData.m_obstacles)
         {
             Vector2 directionToObstacle = obstacleCollider.ClosestPoint(transform.position) - (Vector2)transform.position;
             float distanceToObstacle = directionToObstacle.magnitude; 
 
             // Calculate weight based on the distance Enemy<--->Obstacle
             float weight = distanceToObstacle <= agentColliderSize ? 
-                1 : (radius - distanceToObstacle) / radius;
+                1 : (radius - distanceToObstacle) / radius; // if... very near = 1(not good)
 
             Vector2 directionToObstacleNormalized = directionToObstacle.normalized; 
 
             // Add obstacle parameters to the danger array
             for(int i = 0; i < Directions.m_eightDirections.Count; i++)
             {
-                float result = Vector2.Dot(directionToObstacleNormalized, Directions.m_eightDirections[i]);
+                float result = Vector2.Dot(directionToObstacleNormalized, Directions.m_eightDirections[i]); // me da valores de 1, -1 o 0
 
-                float valueToPutIn = result * weight;
+                float valueToPutIn = result * weight; 
 
                 // Override value only if it's higher than the current one stored in the danger array
-                if(valueToPutIn > danger[i])
+                if(valueToPutIn > _danger[i])
                 {
-                    danger[i] = valueToPutIn;
+                    _danger[i] = valueToPutIn;
                 }
             }
         }
-        dangersResultTemp = danger;
-        return (danger, interest); 
+
+        //DEBUG
+        dangersResultTemp = _danger;
+
+
+        return (_danger, _interest); // interest not modified
     }
 
     private void OnDrawGizmos()

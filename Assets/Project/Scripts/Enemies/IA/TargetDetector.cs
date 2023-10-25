@@ -15,7 +15,7 @@ public class TargetDetector : Detector
     private bool showGizmos = false;
     private List<Transform> colliders; 
 
-    public override void Detect(IAData iaData)
+    public override void Detect(IAData _iaData)
     {
         // Find out if player is near
         Collider2D playerCollider = Physics2D.OverlapCircle(transform.position, rangeVision, playerLayer);
@@ -31,7 +31,6 @@ public class TargetDetector : Detector
                 /* detect that we found a player not an obstacle*/)
             {
                 colliders = new List<Transform>() { playerCollider.transform };
-
                 Debug.DrawRay(transform.position, direction * rangeVision, Color.magenta);
             }
             else
@@ -43,11 +42,12 @@ public class TargetDetector : Detector
         {
             colliders = null;
         }
-        iaData.m_targets = colliders; 
+
+        _iaData.m_targets = colliders; 
     }
 
     //DEBUG
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         if (showGizmos == false)
             return; 

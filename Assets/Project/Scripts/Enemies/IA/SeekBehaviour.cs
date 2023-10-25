@@ -6,52 +6,53 @@ using UnityEngine;
 public class SeekBehaviour : SteeringBehaviou
 {
     [SerializeField]
-    private float targetRaechedThreshold = 0.5f;
+    private float targetReachedThreshold = 0.5f; // target alcanzado
 
     private bool reachedLastTarget = true;
+
+    private Vector2 targetPositionCached; // player position
 
     //DEBUG
     [SerializeField]
     private bool showGizmos = true;
-    private Vector2 targetPositionCached;
     private float[] interestTemp;
 
-    public override (float[] danger, float[] interest) GetSteering(float[] danger, float[] interest, IAData iaData)
+    public override (float[] danger, float[] interest) GetSteering(float[] _danger, float[] _interest, IAData _iaData)
     {
         // if... we don't have a target stop seeking
         // else... set a new target
         if (reachedLastTarget)
         {
-            if (iaData.m_targets == null || iaData.m_targets.Count <= 0)
+            if (_iaData.m_targets == null || _iaData.m_targets.Count <= 0) // if not targets => interest will be nothing
             {
-                iaData.m_currentTarget = null;
-                return (danger, interest);
+                _iaData.m_currentTarget = null;
+                return (_danger, _interest);
             }
             else
             {
                 reachedLastTarget = false;
-                iaData.m_currentTarget = iaData.m_targets.OrderBy
-                    (target => Vector2.Distance(target.position, transform.position)).FirstOrDefault();
+                // Take the more close target and set as current target
+                _iaData.m_currentTarget = _iaData.m_targets.OrderBy(target => Vector2.Distance(target.position, transform.position)).FirstOrDefault(); 
             }
         }
 
         // Cache the last position only if we still see the target (if the targets collection is not empty)
-        if (iaData.m_currentTarget != null && iaData.m_targets != null && iaData.m_targets.Contains(iaData.m_currentTarget))
+        if (_iaData.m_currentTarget != null && _iaData.m_targets != null && _iaData.m_targets.Contains(_iaData.m_currentTarget))
         {
-            targetPositionCached = iaData.m_currentTarget.position;
+            targetPositionCached = _iaData.m_currentTarget.position;
         }
 
-        // First check if we have reached the target
-        if (Vector2.Distance(transform.position, targetPositionCached) < targetRaechedThreshold)
+        // if we have reached the target
+        if (Vector2.Distance(transform.position, targetPositionCached) < targetReachedThreshold)
         {
             reachedLastTarget = true;
-            iaData.m_currentTarget = null;
-            return (danger, interest); // Nothing to chase
+            _iaData.m_currentTarget = null;
+            return (_danger, _interest); // Nothing to chase because we have already chase it 
         }
 
         // if we haven't yet reached the target do the main logic of finding the interest directions
         Vector2 directionToTarget = targetPositionCached - (Vector2)transform.position;
-        for (int i = 0; i < interest.Length; i++)
+        for (int i = 0; i < _interest.Length; i++)
         {
             // Closes direction
             float result = Vector2.Dot(directionToTarget.normalized, Directions.m_eightDirections[i]);
@@ -60,14 +61,19 @@ public class SeekBehaviour : SteeringBehaviou
             if (result > 0)
             {
                 float valueToPutIn = result;
-                if (valueToPutIn > interest[i])
+                // Override value only if it's higher than the current one stored in the danger array
+                if (valueToPutIn > _interest[i])
                 {
-                    interest[i] = valueToPutIn;
+                    _interest[i] = valueToPutIn;
                 }
             }
         }
-        interestTemp = interest;
-        return (danger, interest);
+
+        // DEBUG
+        interestTemp = _interest;
+
+
+        return (_danger, _interest);
     }
 
     private void OnDrawGizmos()

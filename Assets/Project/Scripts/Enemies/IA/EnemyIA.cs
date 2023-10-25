@@ -20,7 +20,10 @@ public class EnemyIA : MonoBehaviour
     [SerializeField]
     private ContextSolver movementDirectionSolver;
 
-    private bool isFollowing = false; 
+    private bool isFollowing = false;
+
+    [SerializeField]
+    private float speed = 5.0f; 
 
     private void Start()
     {
@@ -43,31 +46,35 @@ public class EnemyIA : MonoBehaviour
         // Enemy AI movement based on target availability 
         if(iaData.m_currentTarget != null)
         {
+            // Looking at the target
             if(isFollowing == false)
             {
                 isFollowing = true;
             }
         }
-        else if(iaData.GetTargetsCount() > 0)
+        else if(iaData.GetTargetsCount() > 0) // pick a target if you don't have one
         {
             // Target acquisition logic
             iaData.m_currentTarget = iaData.m_targets[0]; 
         }
-
-        if(iaData.m_currentTarget == null)
+        else
         {
             isFollowing = false;
+            Debug.Log("Stopping"); 
         }
 
         if(isFollowing)
         {
-            // ROTATION OF THE ENENMY WHILE FOLLOWING
             Vector2 direction = movementDirectionSolver.GetDirectionToMove(steeringBehaviours, iaData);
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-            transform.position = Vector2.MoveTowards(this.transform.position, iaData.m_currentTarget.position, 5 * Time.deltaTime);
-            //transform.rotation = Quaternion.Euler(Vector3.forward * angle);
+            //Vector2 destination = direction - (Vector2)transform.position;
+            //transform.position = Vector2.MoveTowards(this.transform.position, destination, speed * Time.deltaTime);
+            
+            // ROTATION OF THE ENENMY WHILE FOLLOWING
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(Vector3.forward * angle);
         }
     }
+
 
 }

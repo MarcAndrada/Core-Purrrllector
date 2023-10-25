@@ -168,9 +168,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionRange: 2
-  layerToDetect:
+  layerToAvoid:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   showGizmos: 0
 --- !u!1 &109256986
 GameObject:
@@ -687,7 +687,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 2
   agentColliderSize: 0.6
-  showGizmos: 0
+  showGizmos: 1
 --- !u!1 &988590515
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,7 +732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f720f6653b9dc846a435fec97f740aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetRaechedThreshold: 0.5
+  targetReachedThreshold: 0.5
   showGizmos: 1
 --- !u!1 &1368058515
 GameObject:
@@ -808,6 +808,7 @@ MonoBehaviour:
   iaData: {fileID: 1368058517}
   detectionDelay: 0.05
   movementDirectionSolver: {fileID: 1445242850}
+  speed: 5
 --- !u!50 &1368058520
 Rigidbody2D:
   serializedVersion: 4

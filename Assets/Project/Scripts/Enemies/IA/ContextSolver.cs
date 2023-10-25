@@ -24,24 +24,26 @@ public class ContextSolver : MonoBehaviour
         // Loop through each behaviour
         foreach(SteeringBehaviou behaviour in _behaviours)
         {
-            (danger, interest) = behaviour.GetSteering(danger, interest, _iaData); 
+            (danger, interest) = behaviour.GetSteering(danger, interest, _iaData); // relleno danger and interest
         }
 
         // Subtract danger values from interest array: removes the direction that we don't want to use for movement
         for(int i = 0; i < 8; i++)
         {
-            interest[i] = Mathf.Clamp01(interest[i] - danger[i]);
+            interest[i] = Mathf.Clamp01(interest[i] - danger[i]); // return 0 if the number is negative
         }
+        //DEBUG
         interestGizmo = interest;
 
-        // Get The average direction
+        // Get the average direction
         Vector2 outputDirection = Vector2.zero; 
         for(int i = 0; i < 8; i++)
         {
             outputDirection += Directions.m_eightDirections[i] * interest[i]; 
         }
-        //outputDirection.Normalize();
+        outputDirection.Normalize();
 
+        //DEBUG
         resultDirection = outputDirection;
 
         // return the selected movement direction

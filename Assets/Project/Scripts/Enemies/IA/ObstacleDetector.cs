@@ -8,17 +8,17 @@ public class ObstacleDetector : Detector
     private float detectionRange = 2.0f;
 
     [SerializeField]
-    private LayerMask layerToDetect;
+    private LayerMask layerToAvoid;
 
     //DEBUG
     [SerializeField]
     private bool showGizmos = true; 
     Collider2D[] colliders; 
 
-    public override void Detect(IAData iaData)
+    public override void Detect(IAData _iaData)
     {
-        colliders = Physics2D.OverlapCircleAll(transform.position, detectionRange, layerToDetect);
-        iaData.m_obstacles = colliders;
+        colliders = Physics2D.OverlapCircleAll(transform.position, detectionRange, layerToAvoid);
+        _iaData.m_obstacles = colliders;
     }
 
     //DEBUG
