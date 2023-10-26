@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class ObstacleAvoidanceBehaviour : SteeringBehaviou
+public class ObstacleAvoidanceBehaviour : SteeringBehaviour
 {
     [SerializeField]
     private float radius = 2.0f;

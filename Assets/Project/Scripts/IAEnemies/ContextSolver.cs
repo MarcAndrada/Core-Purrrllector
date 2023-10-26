@@ -16,13 +16,13 @@ public class ContextSolver : MonoBehaviour
         interestGizmo = new float[8];
     }
 
-    public Vector2 GetDirectionToMove(List<SteeringBehaviou> _behaviours, IAData _iaData)
+    public Vector2 GetDirectionToMove(List<SteeringBehaviour> _behaviours, IAData _iaData)
     {
         float[] danger = new float[8]; 
         float[] interest = new float[8];
 
         // Loop through each behaviour
-        foreach(SteeringBehaviou behaviour in _behaviours)
+        foreach(SteeringBehaviour behaviour in _behaviours)
         {
             (danger, interest) = behaviour.GetSteering(danger, interest, _iaData); // relleno danger and interest
         }

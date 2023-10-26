@@ -808,7 +808,7 @@ MonoBehaviour:
   iaData: {fileID: 1368058517}
   detectionDelay: 0.05
   movementDirectionSolver: {fileID: 1445242850}
-  speed: 5
+  speed: 10
 --- !u!50 &1368058520
 Rigidbody2D:
   serializedVersion: 4
@@ -960,7 +960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 777b6d11e1883224babaac0a17269776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rangeVision: 5
+  rangeVision: 10
   playerLayer:
     serializedVersion: 2
     m_Bits: 128

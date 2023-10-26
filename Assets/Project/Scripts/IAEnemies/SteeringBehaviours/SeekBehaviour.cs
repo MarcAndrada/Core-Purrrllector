@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SeekBehaviour : SteeringBehaviou
+public class SeekBehaviour : SteeringBehaviour
 {
     [SerializeField]
     private float targetReachedThreshold = 0.5f; // target alcanzado
@@ -74,11 +74,6 @@ public class SeekBehaviour : SteeringBehaviou
 
 
         return (_danger, _interest);
-    }
-
-    public Vector2 GetTargetPositionCached()
-    {
-        return targetPositionCached; 
     }
 
     private void OnDrawGizmos()

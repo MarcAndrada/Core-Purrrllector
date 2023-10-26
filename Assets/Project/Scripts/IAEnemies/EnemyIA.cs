@@ -6,7 +6,7 @@ using static UnityEngine.GraphicsBuffer;
 public class EnemyIA : MonoBehaviour
 {
     [SerializeField]
-    private List<SteeringBehaviou> steeringBehaviours;
+    private List<SteeringBehaviour> steeringBehaviours;
 
     [SerializeField]
     private List<Detector> detectors;
