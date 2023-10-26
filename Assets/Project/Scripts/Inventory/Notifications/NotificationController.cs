@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class ItemNotificationController : MonoBehaviour
+public class NotificationController : MonoBehaviour
 {
     
     [SerializeField]
@@ -17,15 +17,14 @@ public class ItemNotificationController : MonoBehaviour
     [Space, SerializeField]
     private float timeToDisapear;
     
-    private void Awake() 
+    private void OnEnable()
     {
         Invoke("DisableNotification", timeToDisapear);
     }
 
-
     public void SetType(ItemController.ItemType _itemType, short _itemAmount)
     {
-        c_itemImage.sprite = Resources.Load<Sprite>("MineralsTextures/" + _itemType.ToString());
+        c_itemImage.sprite = Resources.Load<Sprite>("Minerals/Textures/" + _itemType.ToString());
         string currentItemAmountSign = "+"; 
         if (_itemAmount < 0)
             currentItemAmountSign = "";
