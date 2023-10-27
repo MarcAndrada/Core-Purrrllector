@@ -23,11 +23,12 @@ public class InventoryManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            ChangeItemtAmount(ItemController.ItemType.Cooper, 1);
+            ChangeItemtAmount((ItemController.ItemType)Random.Range(0, 5), 1);
         }
+
         if (Input.GetKeyDown(KeyCode.M))
         {
-            ChangeItemtAmount(ItemController.ItemType.Cooper, -1);
+            ChangeItemtAmount((ItemController.ItemType)Random.Range(0, 5), -1);
         }
     }
 

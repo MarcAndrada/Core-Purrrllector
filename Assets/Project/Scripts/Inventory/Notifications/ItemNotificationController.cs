@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemUIController : MonoBehaviour
+public class ItemNotificationController : MonoBehaviour
 {
     [SerializeField]
     private GameObject notificationPrefab;
@@ -18,6 +18,8 @@ public class ItemUIController : MonoBehaviour
 
     private List<RectTransform> notificationList;
 
+    [Space, SerializeField]
+    private GameObject inventory; //ESTO NO HA DE ESTAR AQUI, ES SOLO PARA PRUEBAS
     private void Awake()
     {
         notificationList = new List<RectTransform>();
@@ -26,6 +28,11 @@ public class ItemUIController : MonoBehaviour
     private void Update()
     {
         PlaceListItems();
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            inventory.SetActive(!inventory.activeInHierarchy);
+        }
     }
 
     private void CreateItemNotification(ItemController.ItemType _itemType, short _itemAmount)
@@ -33,7 +40,7 @@ public class ItemUIController : MonoBehaviour
         GameObject newItem = Instantiate(notificationPrefab, transform);
         notificationList.Add(newItem.GetComponent<RectTransform>());
 
-        ItemNotificationController notification = newItem.GetComponent<ItemNotificationController>();
+        NotificationController notification = newItem.GetComponent<NotificationController>();
         notification.SetType(_itemType, _itemAmount);
 
     }
@@ -51,11 +58,12 @@ public class ItemUIController : MonoBehaviour
 
             if (i < 3)
             {
+                notificationList[i].gameObject.SetActive(true);
                 notificationList[i].anchoredPosition = new Vector2(0, notificationMaxYSpawn - (notificationOffset * i));
             }
             else
             {
-                notificationList[i].anchoredPosition = new Vector2(1000, 0);
+                notificationList[i].gameObject.SetActive(false);
             }
         }
     }
