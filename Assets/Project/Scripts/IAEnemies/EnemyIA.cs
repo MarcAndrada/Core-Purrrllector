@@ -6,10 +6,10 @@ using static UnityEngine.GraphicsBuffer;
 public class EnemyIA : MonoBehaviour
 {
     [SerializeField]
-    private List<SteeringBehaviour> steeringBehaviours;
+    private List<SteeringBehaviour> l_steeringBehaviours;
 
     [SerializeField]
-    private List<Detector> detectors;
+    private List<Detector> l_detectors;
 
     [SerializeField]
     private IAData iaData;
@@ -20,16 +20,18 @@ public class EnemyIA : MonoBehaviour
     [SerializeField]
     private ContextSolver movementDirectionSolver;
 
-    private bool isFollowing = false;
+    public bool isFollowing { get; private set; }
 
     [SerializeField]
     private float speed = 5.0f; 
 
     private Rigidbody2D c_rb2d; 
 
-    private void Start()
+    public void InitEnemy()
     {
         c_rb2d = GetComponent<Rigidbody2D>();
+
+        isFollowing = false; 
 
         // Detecting player and obstacles around
         InvokeRepeating("PerformDetection", 0, detectionDelay); 
@@ -38,14 +40,13 @@ public class EnemyIA : MonoBehaviour
     private void PerformDetection()
     {
         // DETECTORS
-        foreach (Detector detector in detectors)
+        foreach (Detector detector in l_detectors)
         {
             detector.Detect(iaData);
         }
-
     }
 
-    private void Update()
+    public void Movement()
     {
         // Enemy AI movement based on target availability 
         if(iaData.m_currentTarget != null)
@@ -69,7 +70,7 @@ public class EnemyIA : MonoBehaviour
 
         if(isFollowing)
         {
-            Vector2 direction = movementDirectionSolver.GetDirectionToMove(steeringBehaviours, iaData);
+            Vector2 direction = movementDirectionSolver.GetDirectionToMove(l_steeringBehaviours, iaData);
 
             c_rb2d.AddForce(direction * speed, ForceMode2D.Force);
 
@@ -78,6 +79,4 @@ public class EnemyIA : MonoBehaviour
             transform.rotation = Quaternion.Euler(Vector3.forward * angle);
         }
     }
-
-
 }
