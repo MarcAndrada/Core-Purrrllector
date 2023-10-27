@@ -26,6 +26,6 @@ public class EnemyBug : EnemyIA
 
     private void Die()
     {
-        Debug.Log("Diieeeeeeee"); 
+        Debug.Log("Exploteee"); 
     }
 }
