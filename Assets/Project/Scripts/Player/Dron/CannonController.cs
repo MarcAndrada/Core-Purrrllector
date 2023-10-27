@@ -4,17 +4,46 @@ using UnityEngine;
 
 public class CannonController : MonoBehaviour
 {
+    [SerializeField]
+    public List<Transform> l_lasers;
+    [SerializeField]
+    private GameObject laserPrefab;
+    [SerializeField]
+    private float reloadDelay;
 
-    
-    // Start is called before the first frame update
-    void Start()
+    private bool canShoot;
+    private float currentDelay;
+
+    private void Awake()
     {
-        
+        canShoot = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if(canShoot == false)
+        {
+            currentDelay -= Time.deltaTime;
+            if(currentDelay <= 0)
+            {
+                canShoot=true;
+            }
+        }
+    }
+
+    public void Shoot()
+    {
+        if(canShoot) 
+        {
+            canShoot = false;
+            currentDelay = reloadDelay;
+            foreach(var laser in l_lasers)
+            {
+                GameObject l = Instantiate(laserPrefab);
+                l.transform.position = laser.transform.position;
+                l.transform.localRotation = laser.rotation;
+                l.GetComponent<Laser>().Initialize();  
+            }
+        }
     }
 }
