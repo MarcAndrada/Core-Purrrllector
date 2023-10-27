@@ -16,8 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float rotationSpeed;
 
-    [SerializeField]
-    private float health;
+    [field: SerializeField]
+    public float health {  get; private set; }
 
 
     // Start is called before the first frame update
